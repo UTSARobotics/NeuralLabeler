@@ -27,9 +27,8 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"SetDirectory", "[", 
    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
- RowBox[{"<<", " ", 
-  "\"\<boundingboxes.wl\>\""}]}], \
-"Code",ExpressionUUID->"c41b50fb-bb3d-4d78-a609-ee1d416e7da1"],
+ RowBox[{"<<", " ", "\"\<labeler.wl\>\""}]}], "Code",
+ CellLabel->"In[10]:=",ExpressionUUID->"c41b50fb-bb3d-4d78-a609-ee1d416e7da1"],
 
 Cell["\<\
 Then, set the directory of the dataset you want to label by running this cell \
@@ -46,9 +45,7 @@ Cell[BoxData[
       "\"\<Directory\>\""}], "]"}], ",", " ", "\"\< (\>\"", ",", " ", 
     RowBox[{"Dynamic", "[", "photoDirectory", "]"}], ",", " ", "\"\<)\>\""}], 
    "}"}], "]"}]], "Input",
- CellLabel->"",ExpressionUUID->"fc57fd93-e618-4dd0-b81b-0dfe21c427d5"],
-
-Cell["", "Text",ExpressionUUID->"d44cf9a2-b762-4694-a6a0-30ef229e38f6"],
+ CellLabel->"In[56]:=",ExpressionUUID->"fc57fd93-e618-4dd0-b81b-0dfe21c427d5"],
 
 Cell["Next, set the labels you want to use", \
 "CodeText",ExpressionUUID->"c694c438-7ba2-49ba-9551-c8a4a7e6aa0d"],
@@ -56,8 +53,8 @@ Cell["Next, set the labels you want to use", \
 Cell[BoxData[
  RowBox[{"possibleLabels", " ", "=", " ", 
   RowBox[{"{", 
-   RowBox[{"\"\<qr\>\"", ",", " ", "\"\<box\>\""}], 
-   "}"}]}]], "Input",ExpressionUUID->"85e06822-3536-46e4-bfab-94c13c818578"],
+   RowBox[{"\"\<qr\>\"", ",", " ", "\"\<box\>\""}], "}"}]}]], "Input",
+ CellLabel->"In[57]:=",ExpressionUUID->"85e06822-3536-46e4-bfab-94c13c818578"],
 
 Cell["\<\
 Run this cell to pull up the labeling tool. If your dataset folder has \
@@ -66,8 +63,11 @@ images, they should show up here.\
 
 Cell[BoxData[
  RowBox[{"labeler", "[", 
-  RowBox[{"photoDirectory", ",", " ", "possibleLabels"}], 
-  "]"}]], "Input",ExpressionUUID->"61f574e2-570a-427c-ae8d-0a0eed350c65"],
+  RowBox[{"photoDirectory", ",", " ", "possibleLabels"}], "]"}]], "Input",
+ CellLabel->"In[58]:=",ExpressionUUID->"61f574e2-570a-427c-ae8d-0a0eed350c65"],
+
+Cell[BoxData[""], \
+"Input",ExpressionUUID->"8471270a-4bfc-468a-9cbc-62d593873695"],
 
 Cell["\<\
 Note, to use keyboard shortcuts (arrow keys and number keys, ESC, backspace, \
@@ -105,7 +105,10 @@ Cell[BoxData[
       "\"\<Directory\>\""}], "]"}], ",", " ", "\"\< (\>\"", ",", " ", 
     RowBox[{"Dynamic", "[", "inputDirectory", "]"}], ",", " ", "\"\<)\>\""}], 
    "}"}], "]"}]], "Input",
- CellLabel->"In[15]:=",ExpressionUUID->"37a14b9c-e273-4ce7-bc6b-8d884efc8b73"],
+ CellLabel->"In[13]:=",ExpressionUUID->"37a14b9c-e273-4ce7-bc6b-8d884efc8b73"],
+
+Cell["Find all images in the input folder", \
+"CodeText",ExpressionUUID->"24d827c8-7fe1-4eaa-846b-06f9df53a215"],
 
 Cell[BoxData[{
  RowBox[{
@@ -122,7 +125,11 @@ Cell[BoxData[{
         RowBox[{"-", "1"}]}], "}"}]}], "]"}], "<>", "\"\<_optimized\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"Length", "[", "files", "]"}]}], "Input",
- CellLabel->"In[16]:=",ExpressionUUID->"78c98792-c8b7-42a0-9728-c682a17288d3"],
+ CellLabel->"In[22]:=",ExpressionUUID->"78c98792-c8b7-42a0-9728-c682a17288d3"],
+
+Cell["\<\
+Save all images in the output folder with the name _optimized.\
+\>", "CodeText",ExpressionUUID->"aca09e7b-e561-47f3-9b13-7931df9ee974"],
 
 Cell[BoxData[{
  RowBox[{"imageSize", " ", "=", " ", "1280"}], "\[IndentingNewLine]", 
@@ -146,7 +153,8 @@ Cell[BoxData[{
        "\[IndentingNewLine]", 
        RowBox[{"\"\<CompressionLevel\>\"", "->", "1"}]}], 
       "\[IndentingNewLine]", "]"}], "&"}], ",", " ", "files"}], "]"}], 
-  ";"}]}], "Input",ExpressionUUID->"fcf338d8-ea02-41ea-af6f-0d8cb94fcbbc"]
+  ";"}]}], "Input",
+ CellLabel->"In[25]:=",ExpressionUUID->"fcf338d8-ea02-41ea-af6f-0d8cb94fcbbc"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -157,6 +165,10 @@ Cell["Video Splitter", \
 Cell["Split a video file into images", \
 "CodeText",ExpressionUUID->"d5e5b49a-1fc7-4a3a-be7c-3f6a069caddf"],
 
+Cell["Run this and click \[OpenCurlyDoubleQuote]Browse...\
+\[CloseCurlyDoubleQuote] to select the video file", \
+"CodeText",ExpressionUUID->"2d1b97df-89a5-4750-b8be-03d174393f14"],
+
 Cell[BoxData[
  RowBox[{"Row", "[", 
   RowBox[{"{", 
@@ -166,7 +178,10 @@ Cell[BoxData[
     "\"\< (\>\"", ",", " ", 
     RowBox[{"Dynamic", "[", "videoFile", "]"}], ",", " ", "\"\<)\>\""}], 
    "}"}], "]"}]], "Input",
- CellLabel->"In[20]:=",ExpressionUUID->"de46efbb-36ac-4fe1-b17a-547bcc84436d"],
+ CellLabel->"In[27]:=",ExpressionUUID->"de46efbb-36ac-4fe1-b17a-547bcc84436d"],
+
+Cell["Run this and verify the number of images makes sense:", \
+"CodeText",ExpressionUUID->"86ec4e7c-d456-4081-a939-140745bfd3df"],
 
 Cell[BoxData[{
  RowBox[{"vidOutputDir", " ", "=", " ", 
@@ -193,7 +208,11 @@ Cell[BoxData[{
  RowBox[{"nFrames", " ", "=", " ", 
   RowBox[{"Round", "[", 
    RowBox[{"duration", "*", " ", "imageRate"}], "]"}]}]}], "Input",
- CellLabel->"In[36]:=",ExpressionUUID->"cfa2fb3e-180e-4dcd-aafb-61554b62423a"],
+ CellLabel->"In[49]:=",ExpressionUUID->"cfa2fb3e-180e-4dcd-aafb-61554b62423a"],
+
+Cell["\<\
+Save frames to a folder of image files (saved in the same place as the video)\
+\>", "CodeText",ExpressionUUID->"ccf580c4-6cba-4867-953e-3563abf4a0d1"],
 
 Cell[BoxData[{
  RowBox[{
@@ -217,8 +236,10 @@ Cell[BoxData[{
       RowBox[{
        RowBox[{"FileNameJoin", "[", 
         RowBox[{"{", 
-         RowBox[{"vidOutputDir", ",", "  ", 
-          RowBox[{"\"\<frame_\>\"", "<>", 
+         RowBox[{"vidOutputDir", ",", " ", 
+          RowBox[{
+           RowBox[{"FileBaseName", "[", "videoFile", "]"}], "<>", "\"\<_\>\"",
+            "<>", 
            RowBox[{"ToString", "[", "#", "]"}], "<>", "\"\<.png\>\""}]}], 
          "}"}], "]"}], ",", "\[IndentingNewLine]", 
        RowBox[{"ImageResize", "[", 
@@ -228,20 +249,21 @@ Cell[BoxData[{
          RowBox[{"{", "1280", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
        RowBox[{"\"\<CompressionLevel\>\"", "->", "1"}]}], 
       "\[IndentingNewLine]", "]"}], "&"}], ",", " ", 
-    RowBox[{"Range", "[", "nFrames", "]"}]}], "]"}], 
-  ";"}]}], "Input",ExpressionUUID->"bc6c6503-49a7-49c9-bbd2-9ba04f8bfad1"]
+    RowBox[{"Range", "[", "nFrames", "]"}]}], "]"}], ";"}]}], "Input",
+ CellLabel->"In[53]:=",ExpressionUUID->"bc6c6503-49a7-49c9-bbd2-9ba04f8bfad1"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]]
 },
 NotebookEventActions:>{},
-WindowSize->{825, 897},
-WindowMargins->{{Automatic, 64.5}, {Automatic, 46.5}},
+WindowSize->{1152., 579.6},
+WindowMargins->{{Automatic, -5.399999999999864}, {
+  Automatic, -5.3999999999999995`}},
 DockedCells->{},
 TaggingRules-><|"TryRealOnly" -> False|>,
 TrackCellChangeTimes->False,
-FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (November 19, 2022)",
+Magnification:>0.8 Inherited,
+FrontEndVersion->"13.1 for Microsoft Windows (64-bit) (August 22, 2022)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"b1d4a969-aa69-492b-8417-8c782bd58801"
 ]
-
