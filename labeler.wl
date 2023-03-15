@@ -1,3 +1,5 @@
+(* ::Package:: *)
+
 (* Labeler.wl *)
 (* Copyright (C) 2023 Alec Graves *)
 (* Package with utilities for building bounding box detection datasets. *)
@@ -58,7 +60,7 @@ load[imageName_] := With[{json = imageToLabel[imageName]},
 (* ~~ Box Labeler GUI ~~ *)
 
 (* Main labeling GUI function; pass in a directory and list of string labels *)
-labeler[photoDirectory_, possibleLabels_] :=	DynamicModule[{
+BoundingBoxLabeler[photoDirectory_, possibleLabels_] :=	DynamicModule[{
 		pts = {}, (* (x1, y1), {x2, y2}, {x3, y3}, {x4, y4}, ... *)
 		labels = {}, (* box, box, qr, qr, qr, qr, box, box, ... *)
 		photoNames = findImages[photoDirectory],
@@ -151,3 +153,122 @@ labeler[photoDirectory_, possibleLabels_] :=	DynamicModule[{
 		}
 	]
 ];
+
+(* SegmentationLabeler, only requires extensionReplace from above.  *)
+
+masksize = 512
+
+emptyImage[width_, height_] := ImageData[Binarize@Image[Table[0, {width}, {height}], ColorSpace -> "Grayscale"]]
+
+(* img.png -> img.dog.bmp *)
+bmpLabelName[imageName_, label_] := extensionReplace[imageName, label] <> ".bmp"
+
+(* export mask *)
+saveBmpLabel[imageName_, label_, mask_] := Export[bmpLabelName[imageName,label],
+	ImageResize[Binarize @ Image[mask, ColorSpace -> "Grayscale"], {masksize}], "ImageCompression" -> "RLE", 
+	"Channels"->1, "BitDepth"->1];
+
+(* import mask *)
+loadBmpLabel[imageName_, label_] := With[
+	{name = bmpLabelName[imageName, label]}
+	,
+	If[FileExistsQ[name], 
+		Binarize@Import[name,"Channels"->1, "BitDepth"->1]
+		, (* else: *)
+		emptyImage[masksize, masksize]
+	]
+];
+
+(* GUI for semantic segmentation labels, exports a bitmap mask. *)
+SegmentationLabeler[imageDirectory_, label_] := DynamicModule[
+	{
+		images = findImages[imageDirectory],
+		idx = 1,
+		state = "draw" (*or erase*),
+		thickness = 0.05 (*width fraction*), 
+		widths = {},
+		colors = {},
+		pts = {},
+		mask = emptyImage[masksize, masksize],
+		size = None
+	},
+	If[Length[images] == 0, None
+	, (* else, images were found. *)
+
+	(* Try to load the first mask *)
+	mask = loadBmpLabel[images[[idx]], label];
+	Column[{
+		(* Basic UI buttons: *)
+		Button["Clear", (
+			mask = emptyImage[masksize, masksize];
+			pts = {}; widths = {}; colors = {}
+		), ImageSize -> Automatic],
+
+		Row[{
+			Dynamic @ SetterBar[Dynamic[state], {"draw", "erase"}],
+			Button["Previous", (
+				saveBmpLabel[images[[idx]], label, mask];
+				idx = Mod[idx - 1, Length[images], 1];
+				mask = loadBmpLabel[images[[idx]], label];)],
+			Button["Next",(
+					saveBmpLabel[images[[idx]], label, mask];
+					idx = Mod[idx + 1, Length[images], 1];
+					mask = loadBmpLabel[images[[idx]], label];
+				)],
+			"Brush Size: "
+			(* Set the thickness of the brush stroke line *)
+			Slider[Dynamic[thickness], {0.01, 0.1, 0.001}]
+		}],
+
+		(* Main UI Window for drawing *)
+		Dynamic[Module[{img = ImageResize[Import[images[[idx]]], {480}]},
+			size = ImageDimensions[Graphics[
+				img, 
+				ImageSize -> Medium, Method -> {"ShrinkWrap" -> True}, PlotRangePadding -> None]];
+			EventHandler[
+				Graphics[{
+					{ImageResize[img, size]},
+					{ Opacity[0.3],
+						ImageResize[Image[mask, ColorSpace -> "Grayscale"], size], (* Mask *)
+						Dynamic[Transpose @ {colors, Thickness /@ widths, Line /@ pts}] (* Active Brush line *)
+					}},
+					ImageSize -> size, 
+					PlotRange -> {{0, size[[1]]}, {0, size[[2]]}},
+					PlotRangePadding -> None
+				],
+
+				(* EventHandler Events: *)
+				{
+					(* On mouse down, store new points *)
+					"MouseDown" :> (
+						pts = AppendTo[pts, {MousePosition["Graphics"]}];
+						widths = AppendTo[widths, thickness];
+						colors = AppendTo[colors, If[state == "draw", White, Black]]),
+					"MouseDragged" :> (
+						pts[[-1]] = AppendTo[pts[[-1]], MousePosition["Graphics"]]),
+					"MouseUp" :> (
+						pts[[-1]] = AppendTo[pts[[-1]], MousePosition["Graphics"]];
+
+						(* Bake the brush stroke back into the mask. *)
+						mask = ImageData@Image[Graphics[{
+								Opacity[1.0], ImageResize[Image[mask, ColorSpace -> "Grayscale"], size],
+								Opacity[1.0], Transpose@{colors, Thickness /@ widths, Line /@ pts}},
+							ImageSize -> size, 
+							PlotRange -> {{0, size[[1]]}, {0, size[[2]]}},
+							PlotRangePadding -> None], 
+							ColorSpace -> "Grayscale"];
+
+						(* Clear the paint. *)
+						pts = {}; widths = {}; colors = {};
+					)
+				}]],
+
+			(* Optimizations for Dynamic image. *)
+			TrackedSymbols :> {idx, pts, mask},
+			SynchronousUpdating -> False
+		],
+
+	(* Final output *)
+	Row[{Dynamic@idx, " of ", Dynamic@Length@images}]
+	}]]
+]

@@ -9,7 +9,7 @@ Cell["By RAS R5", \
 
 Cell[CellGroupData[{
 
-Cell["Labeling Tool", \
+Cell["Bounding Box Labeling Tool", \
 "Section",ExpressionUUID->"3d329064-8b3d-42b1-a575-8f34ba1b3d74"],
 
 Cell[TextData[{
@@ -26,9 +26,10 @@ Cell[BoxData[{
   RowBox[{"$HistoryLength", " ", "=", " ", "0"}], ";"}], "\n", 
  RowBox[{
   RowBox[{"SetDirectory", "[", 
-   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{"<<", " ", "\"\<labeler.wl\>\""}]}], "Code",
- CellLabel->"In[10]:=",ExpressionUUID->"c41b50fb-bb3d-4d78-a609-ee1d416e7da1"],
+ CellLabel->"In[5]:=",ExpressionUUID->"a61913a9-c008-4461-bac5-21eae463d789"],
 
 Cell["\<\
 Then, set the directory of the dataset you want to label by running this cell \
@@ -45,7 +46,7 @@ Cell[BoxData[
       "\"\<Directory\>\""}], "]"}], ",", " ", "\"\< (\>\"", ",", " ", 
     RowBox[{"Dynamic", "[", "photoDirectory", "]"}], ",", " ", "\"\<)\>\""}], 
    "}"}], "]"}]], "Input",
- CellLabel->"In[56]:=",ExpressionUUID->"fc57fd93-e618-4dd0-b81b-0dfe21c427d5"],
+ CellLabel->"In[8]:=",ExpressionUUID->"fc57fd93-e618-4dd0-b81b-0dfe21c427d5"],
 
 Cell["Next, set the labels you want to use", \
 "CodeText",ExpressionUUID->"c694c438-7ba2-49ba-9551-c8a4a7e6aa0d"],
@@ -54,7 +55,7 @@ Cell[BoxData[
  RowBox[{"possibleLabels", " ", "=", " ", 
   RowBox[{"{", 
    RowBox[{"\"\<qr\>\"", ",", " ", "\"\<box\>\""}], "}"}]}]], "Input",
- CellLabel->"In[57]:=",ExpressionUUID->"85e06822-3536-46e4-bfab-94c13c818578"],
+ CellLabel->"In[15]:=",ExpressionUUID->"85e06822-3536-46e4-bfab-94c13c818578"],
 
 Cell["\<\
 Run this cell to pull up the labeling tool. If your dataset folder has \
@@ -62,12 +63,9 @@ images, they should show up here.\
 \>", "CodeText",ExpressionUUID->"cf7e9c37-1398-4b82-8fb9-90a792410e9b"],
 
 Cell[BoxData[
- RowBox[{"labeler", "[", 
+ RowBox[{"BoundingBoxLabeler", "[", 
   RowBox[{"photoDirectory", ",", " ", "possibleLabels"}], "]"}]], "Input",
- CellLabel->"In[58]:=",ExpressionUUID->"61f574e2-570a-427c-ae8d-0a0eed350c65"],
-
-Cell[BoxData[""], \
-"Input",ExpressionUUID->"8471270a-4bfc-468a-9cbc-62d593873695"],
+ CellLabel->"In[16]:=",ExpressionUUID->"61f574e2-570a-427c-ae8d-0a0eed350c65"],
 
 Cell["\<\
 Note, to use keyboard shortcuts (arrow keys and number keys, ESC, backspace, \
@@ -75,6 +73,34 @@ space, etc.), you have to click on text in the labeling tool cell.\
 \[LineSeparator]Easiest way is to click on \[OpenCurlyDoubleQuote]Bounding \
 Boxes\[CloseCurlyDoubleQuote].\
 \>", "CodeText",ExpressionUUID->"590228b9-e043-454d-894d-44288a1c6e3c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Semantic Segmentation Labeling Tool", \
+"Section",ExpressionUUID->"285d9545-2e62-477c-9ec5-beade097912b"],
+
+Cell["\<\
+This is for creating semantic segmentation labels (e.g. coloring in the \
+object you want)\
+\>", "CodeText",ExpressionUUID->"651bf439-c192-4b30-bf02-d885b37380aa"],
+
+Cell[BoxData[
+ RowBox[{"Row", "[", 
+  RowBox[{"{", 
+   RowBox[{"\"\<Dataset Folder: \>\"", ",", 
+    RowBox[{"FileNameSetter", "[", 
+     RowBox[{
+      RowBox[{"Dynamic", "[", "segmentationDataset", "]"}], ",", " ", 
+      "\"\<Directory\>\""}], "]"}], ",", " ", "\"\< (\>\"", ",", " ", 
+    RowBox[{"Dynamic", "[", "segmentationDataset", "]"}], ",", " ", 
+    "\"\<)\>\""}], "}"}], "]"}]], "Input",
+ CellLabel->"In[17]:=",ExpressionUUID->"050c426d-2198-436c-ac5d-b1765200a3f6"],
+
+Cell[BoxData[
+ RowBox[{"SegmentationLabeler", "[", 
+  RowBox[{"segmentationDataset", ",", " ", "\"\<tape\>\""}], "]"}]], "Input",
+ CellLabel->"In[13]:=",ExpressionUUID->"89449535-76cf-4df0-804a-3fa38083055c"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -105,7 +131,8 @@ Cell[BoxData[
       "\"\<Directory\>\""}], "]"}], ",", " ", "\"\< (\>\"", ",", " ", 
     RowBox[{"Dynamic", "[", "inputDirectory", "]"}], ",", " ", "\"\<)\>\""}], 
    "}"}], "]"}]], "Input",
- CellLabel->"In[13]:=",ExpressionUUID->"37a14b9c-e273-4ce7-bc6b-8d884efc8b73"],
+ CellLabel->
+  "In[144]:=",ExpressionUUID->"37a14b9c-e273-4ce7-bc6b-8d884efc8b73"],
 
 Cell["Find all images in the input folder", \
 "CodeText",ExpressionUUID->"24d827c8-7fe1-4eaa-846b-06f9df53a215"],
@@ -125,10 +152,10 @@ Cell[BoxData[{
         RowBox[{"-", "1"}]}], "}"}]}], "]"}], "<>", "\"\<_optimized\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"Length", "[", "files", "]"}]}], "Input",
- CellLabel->"In[22]:=",ExpressionUUID->"78c98792-c8b7-42a0-9728-c682a17288d3"],
+ CellLabel->"In[15]:=",ExpressionUUID->"78c98792-c8b7-42a0-9728-c682a17288d3"],
 
 Cell["\<\
-Save all images in the output folder with the name _optimized.\
+Save all images in the output folder with the name optimized.\
 \>", "CodeText",ExpressionUUID->"aca09e7b-e561-47f3-9b13-7931df9ee974"],
 
 Cell[BoxData[{
@@ -256,14 +283,16 @@ Cell[BoxData[{
 }, Open  ]]
 },
 NotebookEventActions:>{},
-WindowSize->{1152., 579.6},
-WindowMargins->{{Automatic, -5.399999999999864}, {
-  Automatic, -5.3999999999999995`}},
+WindowSize->{1141.2, 568.8},
+WindowMargins->{{
+  Automatic, -5.399999999999864}, {-5.399999999999977, Automatic}},
+WindowStatusArea->"",
 DockedCells->{},
 TaggingRules-><|"TryRealOnly" -> False|>,
 TrackCellChangeTimes->False,
-Magnification:>0.8 Inherited,
+Magnification:>0.9 Inherited,
 FrontEndVersion->"13.1 for Microsoft Windows (64-bit) (August 22, 2022)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"b1d4a969-aa69-492b-8417-8c782bd58801"
 ]
+
